@@ -37,7 +37,8 @@ def get():
     cities = ['Baghdad', 'Hanoi', 'Los Angeles', 'Alexandria', 'Durban', 'Jakarta', 'Kinshasa', 'Dhaka', 'Kolkata', 'Riyadh', 'Seoul', 'Yokohama', 'Shenzhen', 'Yangon', 'Surat', 'New York City', 'Berlin', 'Ouagadougou']
 
     if (
-        "start" in request.form
+        "weight" in request.form
+        and "start" in request.form
         and "end" in request.form
         and "pokemonId" in request.form
     ):
