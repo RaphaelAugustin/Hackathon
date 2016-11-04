@@ -69,16 +69,16 @@ def get():
         numberPokemon = math.ceil(int(request.form["weight"])*5 / int(dictPokemon["pokemons"]["weight"]))
 
         # TODO Adapt googleTravelTime to real var; Distance var too
-
+        # distance in meter
         distance = traject['routes'][0]['legs'][0]['distance']['value']
         timeTravel = int(distance)/1000 / int(dictPokemon["pokemons"]['speed'])
 
         result = {}
 
         result['namePokemon'] = dictPokemon["pokemons"]['name']
-        result['numberPokemon'] = numberPokemon
-        result['timeTravel'] = timeTravel
-        result['distance'] = distance
+        result['numberPokemon'] = numberPokemon # number pokemon necessary to carry the user
+        result['timeTravel'] = timeTravel # in hours
+        result['distance'] = distance  # in meter
         result['stage'] = stages
         result['start'] = traject['routes'][0]['legs'][0]['start_address']
         result['end'] = traject['routes'][0]['legs'][0]['end_address']
