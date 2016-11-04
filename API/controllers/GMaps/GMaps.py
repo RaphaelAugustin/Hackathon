@@ -4,19 +4,9 @@ from json import dumps
 from API.models.GMaps.itineraryGenerator import itineraryGenerator
 
 
-def getTraject():
+def getTraject(origin, destination, wayPoints):
 
-    # testing values
-    origin = "Paris,FR"
-    destination = "Houdan,FR"
-
-    if('wayPoints' in request.form):
-        baseUrl = itineraryGenerator.createTraject(origin, destination, wayPoints)
-    else:
-        baseUrl = itineraryGenerator.createTraject(
-            origin,
-            destination
-        )
+    baseUrl = itineraryGenerator.createTraject(origin, destination, wayPoints)
 
     data = itineraryGenerator.sendRequest(baseUrl)
 

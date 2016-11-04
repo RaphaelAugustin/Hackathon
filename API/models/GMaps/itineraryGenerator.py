@@ -8,23 +8,25 @@ class itineraryGenerator():
     def __init(self):
         return self
 
-    def createTraject(origin, destination, wayPoints=""):
+    def createTraject(origin, destination, wayPoints):
         GMaps = GMapsInterface()
-        baseUrl = str(GMaps.validUrlDirection) + "&origin=" + str(origin) + "&destination=" + str(destination)
+        baseUrl = str(GMaps.validUrlDirection) + "&origin=" + str(origin) + "&destination=" + str(destination) + "&waypoints="
 
         if(len(wayPoints) != 0):
-            for index, value in enumerate(wayPoints):
-                if(index == len(wayPoints)):
-                    wayPoints = wayPoints + value
+            wayPointString = ""
+            for value in wayPoints:
+                if(value == wayPoints[len(wayPoints)-1]):
+                    wayPointString += "via:" + value
                 else:
-                    wayPoints = wayPoints + "|" + value
+                    wayPointString += "via:" + value + "|"
 
-            baseUrl = baseUrl + wayPoints
+            baseUrl = baseUrl + wayPointString
 
         return baseUrl
 
     def sendRequest(Url):
 
+        print(Url)
         req = request.Request(str(Url))
         response = request.urlopen(req)
         data = response.read()
