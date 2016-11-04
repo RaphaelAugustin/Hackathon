@@ -5,6 +5,6 @@ from API.controllers import main
 app.add_url_rule(
     '/get/<int:pokeId>/',
     'get',
-    main.get,
+    main.getPokemon,
     methods=["GET"]
 )
