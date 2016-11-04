@@ -26,13 +26,12 @@ def getPokemon(pokeId):
             result["speed"] = math.ceil(stat["base_stat"] / 10)
             break
 
-    print(result)
     connection.close()
     return dumps({"pokemons": result})
 
 
 def get():
-    cities = ['marseille', 'berlin', 'moscou', 'varsovie', 'pekin', 'bamako', 'le cap', 'kigali', 'Ouagadougou', 'dubai']
+    cities = ['marseille', 'berlin', 'moscou', 'varsovie', 'bamako', 'kigali', 'Ouagadougou', 'dubai']
 
     if (
         "weight" in request.form
@@ -63,23 +62,28 @@ def get():
 
         # user Google Map
         googleResult = getTraject(request.form["start"], request.form['end'], stages)
-
-        return(googleResult)
+        traject = json.loads(googleResult)
         # Make Pokemon Calcul
         pokemon = getPokemon(request.form["pokemonId"])
         dictPokemon = json.loads(pokemon)
-        # print(dictPokemon['pokemons']['weight'])
-        numberPokemon = math.ceil(int(request.form["weight"]) / int(dictPokemon["pokemons"]["weight"]))
+        numberPokemon = math.ceil(int(request.form["weight"])*5 / int(dictPokemon["pokemons"]["weight"]))
 
         # TODO Adapt googleTravelTime to real var; Distance var too
-        timeTravel = googleTravelTime / pokemon['speed']
+
+        distance = traject['routes'][0]['legs'][0]['distance']['value']
+        timeTravel = int(distance)/1000 / int(dictPokemon["pokemons"]['speed'])
 
         result = {}
 
-        result['namePokemon'] = pokemon['name']
+        result['namePokemon'] = dictPokemon["pokemons"]['name']
         result['numberPokemon'] = numberPokemon
         result['timeTravel'] = timeTravel
         result['distance'] = distance
+        result['stage'] = stages
+        result['start'] = traject['routes'][0]['legs'][0]['start_address']
+        result['end'] = traject['routes'][0]['legs'][0]['end_address']
+
+        return dumps({'result': result}), 201
 
 
 
