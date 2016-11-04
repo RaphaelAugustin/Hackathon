@@ -8,9 +8,9 @@ class itineraryGenerator():
     def __init(self):
         return self
 
-    @staticmethod
-    def createTraject(originId, destinationId, wayPoints=""):
-        baseUrl = GMapsInterface.getDirectionUrl() + "origin=" + originCity + "destination=" + destinationCity
+    def createTraject(origin, destination, wayPoints=""):
+        GMaps = GMapsInterface()
+        baseUrl = str(GMaps.validUrlDirection) + "&origin=" + str(origin) + "&destination=" + str(destination)
 
         if(len(wayPoints) != 0):
             for index, value in enumerate(wayPoints):
@@ -24,8 +24,9 @@ class itineraryGenerator():
         return baseUrl
 
     def sendRequest(Url):
-        webUrl = request.openUrl(Url)
-        data = webUrl.read()
-        encoding = webUrl.info().get_content_charset('utf-8')
-        returnValue = json.loads(data.decode(encoding))
+
+        req = request.Request(str(Url))
+        response = request.urlopen(req)
+        data = response.read()
+        returnValue = json.loads(data.decode())
         return returnValue
