@@ -1,6 +1,7 @@
 import os
 import http.client
 import json
+import math
 from flask import request
 from json import dumps
 from random import choice
@@ -22,10 +23,10 @@ def getPokemon(pokeId):
 
     result = {}
     result["name"] = jsondata["name"]
-    result["weight"] = jsondata["weight"]
+    result["weight"] = math.ceil(jsondata["weight"] / 10)
     for stat in jsondata['stats']:
         if stat['stat']["name"] == "speed":
-            result["speed"] = stat["base_stat"]
+            result["speed"] = math.ceil(stat["base_stat"] / 10)
             break
 
     print(result)
@@ -42,6 +43,9 @@ def get():
         and "end" in request.form
         and "pokemonId" in request.form
     ):
+
+
+
         stage1 = choice(cities)
 
         stage2 = choice(cities)
@@ -57,6 +61,25 @@ def get():
         # Destination : request.form['end']
 
         return dumps({"success": True})
+
+        pokemon = getPokemon(request.form["pokemonId"])
+
+        numberPokemon = math.ceil(request.form['weight'] / pokemon['weight'])
+
+        timeTravel = googleTravelTime / pokemon['speed']
+
+        result = {}
+
+        result['namePokemon'] = pokemon['name']
+        result['numberPokemon'] = numberPokemon
+        result['timeTravel'] = timeTravel
+        result['distance'] = distance
+
+
+
+        return dumps(result)
+
+
 
     else:
         return dumps({
