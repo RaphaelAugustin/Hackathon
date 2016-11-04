@@ -1,18 +1,22 @@
-import os
 from flask import request
 from json import dumps
 
-from API import app
-from API.models.GMaps import itineraryGenerator
+from API.models.GMaps.itineraryGenerator import itineraryGenerator
 
 
 def getTraject():
-    generator = itineraryGenerator()
+
+    # testing values
+    origin = "Paris,FR"
+    destination = "Houdan,FR"
 
     if('wayPoints' in request.form):
-        baseUrl = generator.createTraject(request.form['origin'], request.form['destination'], request.form['wayPoints'])
+        baseUrl = itineraryGenerator.createTraject(origin, destination, wayPoints)
     else:
-        baseUrl = generator.createTraject(request.form['origin'], request.form['destination'])
+        baseUrl = itineraryGenerator.createTraject(
+            origin,
+            destination
+        )
 
     data = itineraryGenerator.sendRequest(baseUrl)
 
