@@ -3,8 +3,8 @@ from API.controllers import main
 
 
 app.add_url_rule(
-    '/get/<int:pokeId>/',
+    '/get',
     'get',
     main.get,
-    methods=["GET"]
+    methods=["POST"]
 )
